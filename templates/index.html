@@ -1,0 +1,457 @@
+{% extends 'app.html' %}
+
+{% block content %}
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Home</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.css') }}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/product.css') }}">
+        <link rel="icon" type="image/png" href="{{ url_for('static', filename='tapitfavicon.png') }}">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+
+    <style>
+        .container-aftr-xheader{
+            background-color: #3b3925;
+            background-image: url('/static/images/networking.jpg');
+            background-repeat: no-repeat;
+            background-size:cover;
+            background-attachment: fixed;
+        }
+        
+        
+        .image-container {
+            position: relative; 
+            width: 446px;
+            height: 446px;
+        }
+        
+        .image-container img {
+            position: absolute;
+            transition: visibility 0.6s linear;
+            transform-origin: right center;
+        }
+        
+        .image-container img.active {
+            z-index: 1;
+            visibility: visible;
+            animation: openFromRight 0.6s ease-in-out forwards;
+        }
+        
+        .image-container img.inactive {
+            z-index: -1;
+            visibility: hidden;
+        } 
+        
+        @keyframes openFromRight {
+            from {
+                transform: scaleX(0);
+            }
+            to {
+                transform: scaleX(1);
+            }
+        }
+        .tapiit-features-div h1{
+            font-size: 3vh;
+            margin-top: 10vh;
+            display: inline-block;
+            font-weight: bold;
+            color: #9067c6; /* Changed color */
+        }
+        
+        .how-to-order{
+            height:80vh;
+            justify-content:center;
+            margin-top:3rem;
+        }
+        
+        .how-to-order h2{
+            font-size: 4vh;
+            margin-top: 10vh;
+            display: inline-block;
+            font-weight: bold;
+            color: #000000; /* Changed color */
+        }
+        
+        .how-to-order-child img{
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            width: 300px;
+            margin-bottom: 1.5rem;
+        }
+        
+        .how-to-order-child h3{
+            font-size: 3vh;
+            padding: 2vh;
+            text-align: center;
+            color: #000000; /* Changed color */
+        }
+        
+        .how-to-order-child p{
+            color: #000000; /* Changed color */
+            font-weight: lighter;
+            line-height: 2.5vh;
+            padding: 2vh;
+            padding-bottom: 0 !important;
+            text-align: center;
+        }
+        
+        .tapiit-features-div h2{
+            font-size: 4vh;
+            margin-top: 1vh;
+            color: #9067c6; /* Changed color */
+        }
+        
+        .how-to-order-child{
+            width: 350px !important;
+            padding: 0 !important;
+            border: 1px solid lightgray;
+            display: flex;
+            margin-left: 1.5rem;
+            border-radius: 25px;
+            flex-direction: column;
+            background-color: #f8f8f8;
+            z-index: 10;
+            transition: 0.4s ease;
+        }
+        .tapiit-features-child{
+            width: 250px;
+            min-height: 275px;
+            max-height: 500px;
+            background-color: #f8f8f8;
+            border-radius: 3vh;
+            margin: 0 auto;
+            padding: 3vh;
+            text-align: center;
+            text-align: left;
+            margin: 2vh;
+            transition: ease .4s;
+        }
+        
+        .tapiit-features-child:hover{
+            transform: scale(1.05);
+            transition: transform .5s ease-in-out;
+        }
+        
+        .tapiit-features-child img{
+            width: 40%;
+            padding-left: 2vh;
+        }
+        
+        .tapiit-features-child h3{
+            font-size: 2.5vh;
+            padding-left: 2vh;
+        }
+        
+        .tapiit-features-child p{
+            color: #8d86c9; /* Changed color */
+            line-height: 2.5vh;
+            padding-left: 2vh;
+        }
+        .how-to-order-child{
+            width: 250px;
+            height: 550px;
+        }
+        @media (max-width: 769px) {
+            .how-to-order{
+                height: auto;
+                margin-top: 0;
+            }
+            .how-to-order-child:hover{
+                transform: scale(1);
+            }
+            .tapiit-features-child{
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                
+            }
+            .tapiit-features-child h3{
+                padding: 0;
+                text-align: center;
+                justify-content: center;
+                align-items: center;
+            }
+            .tapiit-features-child img{
+                text-align: center;
+                justify-content: center;
+                align-items: center;
+                padding: 0;
+            }
+            .how-to-order-child{
+                width: 350px !important;
+                padding: 0 !important;
+                border: 1px solid lightgray;
+                display: flex;
+                border-radius: 25px;
+                flex-direction: column;
+                background-color: #f8f8f8;
+                color: #8d86c9; /* Changed color */
+                transition: 0.4s ease;
+                margin-bottom: 10px;
+                margin-left: auto;
+                margin-right: auto;
+            }
+            .tapiit-features-child p{
+                color: #8d86c9; /* Changed color */
+                line-height: 3.5vh;
+                padding-left: 2vh;
+            }
+        }
+        
+        /*Small*/
+        @media (max-width: 320px) {
+            .how-to-order{
+                display: flex;
+                justify-content: center;
+                margin: auto;
+            }
+            .how-to-order-child{
+                width: 300px !important;
+                margin-left: auto !important;
+                margin-right: auto !important;
+                margin-bottom: 10px;
+            }
+            .how-to-order-child img{
+                height: 200px;
+                width: 200px;
+            }
+            .how-to-order-child p{
+                color: #8d86c9; /* Changed color */
+                font-weight: lighter;
+                font-size: 14px;
+                text-align: center;
+            }
+            .tapiit-features-child p{
+                color: #000; /* Changed color */
+                line-height: 4.5vh;
+                padding-left: 2vh;
+            }
+        }
+        
+        /*1024*/
+        @media (max-width: 1024px) {
+            .how-to-order-child{
+                width: 300px !important;
+                height: 100%;
+            }
+            .how-to-order-child img{
+                height: 200px;
+                width: 200px;
+            }
+            .how-to-order-child p{
+                color: #8d86c9; /* Changed color */
+                font-weight: lighter;
+                line-height: 1;
+                padding: 2vh;
+                text-align: left;
+            }
+        }
+        
+        /*1440px*/
+        @media (min-width: 1920px) and (max-width: 2560px) {
+            .how-to-order-child{
+                width: 500px !important;
+                height: 100%;
+            }
+            .how-to-order-child img{
+                height: 400px;
+                width: 400px;
+            }
+        }
+        .hy {
+            font-size: 16px; /* Reset font weight */
+            transition: all 0.3s ease; /* Smooth transition for hover effect */
+            font-weight: 700;
+            color: white;
+            background-color: rgb(61, 61, 236);
+            padding-left: 60px;
+            padding-right: 60px;
+            border-radius: 40px;
+        }
+        
+        .hy:hover {
+            font-weight: bold; /* Bold font weight on hover */
+            color: white;
+            background-color: #223ebd;
+            box-shadow: 2px 2px 3px 2px white;
+        }
+        .how-to-order-child {
+            width: 150px; /* Adjust the width as needed */
+            height: auto; /* Allow height to adjust based on content */
+            margin: 10px; /* Add some margin between each child */
+        }
+        
+        .how-to-order-child img {
+            max-width: 40%; /* Ensure the image fits within the container */
+            height: auto; /* Allow the height to adjust accordingly */
+        }
+    </style>
+</head>
+<body>
+  
+
+    <div class="container-aftr-xheader container-content bg-grey text-white d-flex fawad" onmouseout="hideDrop()">
+        <div class="col-md-6 order-md-1 order-1">
+            <div class="container text-left top_home" style="width:90%;margin:auto;margin-top:20%">
+                <p class="small-text">DISCOVER ASSETS PASSIVELY</p>
+                <p class="main-text">THE FUTURE OF NETWORKING</p>
+                <p class="sub-text">A SUSTAINABLE APPROACH TO NEXT-LEVEL NETWORKING</p>
+                <div class="d-flex">
+                    <a href="/login" class="login-btn-aftr-xheader hy mt-4 mr-2" style="margin-right: 29px; color:white">Login</a>
+                    <!--<a href="/how_it_works" class="hy  mt-4">HOW IT WORKS</a>-->
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 order-md-2 order-2 d-md-flex align-items-md-end " style="width: 50%" onmouseout="hidedrop()">
+       
+        </div>
+    </div>
+    
+ 
+   <div class="how-to-order container-fluid d-flex flex-column align-items-center w-100" style="margin-top: 0;">
+    <h2 class="pt-2">VISUALIZE YOUR NETWORK</h2>
+    <div class="d-flex flex-row flex-wrap justify-content-center align-items-center mt-5">
+        <div class="how-to-order-child" style="width: 200px; height: 300px; border:1px solid blue">
+            <h3>Step 1</h3>
+            <img style="width: 100%; height: auto;" src="{{ url_for('static', filename='images/network-packet-capturing.png') }}" alt="Packet Capturing">
+            <p>Packet Capturing - Capture network traffic to analyze data packets, revealing communication patterns.</p>
+        </div>
+        <div class="how-to-order-child" style="width: 200px; height: 300px; border:1px solid blue">
+            <h3>Step 2</h3>
+            <img style="width: 100%; height: auto;" src="{{ url_for('static', filename='images/pc.png') }}" alt="Asset Discovery">
+            <p>Asset Discovery - Identify and catalog all devices connected to the network to understand network topology </p>
+        </div>
+        <div class="how-to-order-child" style="width: 200px; height: 300px; border:1px solid blue">
+            <h3>Step 3</h3>
+            <img style="width: 40%; height: auto;" src="{{ url_for('static', filename='images/visualization.png') }}" alt="Network Visualization">
+            <p>Network Visualization - Present network infrastructure and relationships visually, aiding in understanding.</p>
+        </div>
+    </div>
+</div>
+<div class="container-whole-of-carosole-contnt" style="background-color: #0e0c0c00">
+    <div class="container  mb-4 mt-4" >
+        <div class="row align-items-center always_slider" style="margin-top: 10%">
+            <div class="col-md-6 red_div" style="padding-left:5%;width: 50%;height:50%; margin-right:0">
+                <div class="image-container img_cnt">
+                    <img class="redef active" src="{{ url_for('static', filename='images/per.jpg') }}" width="446" height="446">
+                    <img class="redef inactive" src="{{ url_for('static', filename='images/analysis.jpg') }}" width="450" height="446">
+                    <img class="redef inactive" src="{{ url_for('static', filename='images/performance.jpg') }}" width="446" height="446">
+                </div>
+            </div>
+            <div class="col-md-6 content_home" style="height: 50%;">
+                <div id="content4" style="height:50%">
+                    <span class="text-center" style="display: block;">Future Enhancement</span>
+                    <h3 class="text-center mb-4 mt-4 top_heading_slider">Anomaly Detection</h3>
+                    <h2 class="text-center x text-for-p mt-4" style="line-height:0.7cm">By leveraging advanced algorithms and machine learning techniques, we aim to identify and analyze irregular patterns or behaviors within the network.</h2>
+                </div>
+                <div id="content5" style="display: none;height:100%">
+                    <span class="text-center" style="display: block;">Flow Analysis</span>
+                    <h3 class="text-center mb-4 mt-4 top_heading_slider">Streamlined Data Navigation</h3>
+                    <h2 class="text-center x text-for-p mt-4" style="line-height:0.7cm">Flow analysis involves scrutinizing the movement of data, resources, or processes within a system to identify patterns.</h2>
+                </div>
+                <div id="content6" style="display: none;height:100%">
+                   
+<span class="text-center" style="display: block;">ENHANCED PERFORMANCE</span>
+
+<h3 class="text-center mb-4 mt-4 top_heading_slider">Utilizing Neo4j for Optimal Efficiency</h3>
+<h2 class="text-center x text-for-p mt-4" style="line-height:0.7cm">Using  Neo4j technology enables real-time updates and a seamless experience. It revolutionizes your network, ensuring scalability and eliminating outdated data concerns, thereby enhancing overall system performance.</h2>
+                </div>
+                <div class="row">
+                    <div class="col-md-8 ahm" style="margin-left:10%">
+                        <ul class="list-inline text-center" style=" font-size: 12px;margin-top:10%">
+                            <li id="listItem4" class="list-inline-item  pt-2" style="margin-left:5%" onclick="showContentx(4)">FUTURE ENHANCEMENT</li>
+                            <li id="listItem5" class="list-inline-item  pt-2" style="margin-left:5%" onclick="showContentx(5)">ANALYSIS</li>
+                            <li id="listItem6" class="list-inline-item pt-2" style="margin-left:5%" onclick="showContentx(6)">PERFORMANCE</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+    <script>
+       
+         document.addEventListener("DOMContentLoaded", function () {
+        const images = document.querySelectorAll(".image-container img");
+        const contents = document.querySelectorAll("#content4, #content5, #content6");
+        let currentIndex = 0;
+        setTimeout(function () {
+            document.getElementById("listItem4").classList.add("active");
+        }, 500);
+
+        function showNextImageAndContent() {
+            images[currentIndex].classList.remove("active");
+            images[currentIndex].classList.add("inactive");
+            images[currentIndex].style.animation = 'none';
+            contents[currentIndex].style.display = 'none';
+
+            currentIndex = (currentIndex + 1) % images.length;
+
+            images[currentIndex].classList.remove("inactive");
+            images[currentIndex].classList.add("active");
+            images[currentIndex].style.animation = 'openFromRight 0.6s ease-in-out forwards';
+            contents[currentIndex].style.animation = 'Bottom 0.6s ease-in-out forwards'; //
+            contents[currentIndex].style.display = 'block';
+
+            updateActiveListItem(currentIndex + 4);
+        }
+
+        function showContentx(index) {
+            for (let i = 0; i < images.length; i++) {
+                if (i === index - 4) {
+                    currentIndex = i;
+                    images[i].classList.remove("inactive");
+                    images[i].classList.add("active");
+                    images[i].style.animation = 'openFromRight 0.6s ease-in-out forwards';
+                    contents[i].style.animation = 'Bottom 0.6s ease-in-out forwards';
+                    contents[i].style.display = 'block';
+                } else {
+                    images[i].classList.remove("active");
+                    images[i].classList.add("inactive");
+                    images[i].style.animation = 'none';
+                    contents[i].style.display = 'none';
+                }
+            }
+
+            updateActiveListItem(index);
+        }
+
+        function updateActiveListItem(index) {
+            const listItems = document.querySelectorAll(".list-inline-item");
+            listItems.forEach(item => {
+                item.classList.remove("active");
+            });
+
+            const activeListItem = document.getElementById(`listItem${index}`);
+            activeListItem.classList.add("active");
+        }
+
+        setInterval(showNextImageAndContent, 5000);
+
+        // Click event for list items
+        document.getElementById("listItem4").addEventListener("click", function () {
+            showContentx(4);
+        });
+
+        document.getElementById("listItem5").addEventListener("click", function () {
+            showContentx(5);
+        });
+
+        document.getElementById("listItem6").addEventListener("click", function () {
+            showContentx(6);
+        });
+    });
+
+    </script>
+    
+    
+
+    <script src="{{'js/bootstrap.js'}}"></script>
+    <script src="{{'js/bootstrap.min.js'}}"></script>
+</body>
+{% endblock %}

@@ -1,0 +1,137 @@
+{% extends 'admin_app.html' %} {% block content %}
+<section class="background-radial-gradient overflow-hidden cal-height">
+  <style>
+    .background-radial-gradient {
+      background-color: hsl(218, 41%, 15%);
+      background-image: radial-gradient(650px circle at 0% 0%,
+          hsl(218, 41%, 35%) 15%,
+          hsl(218, 41%, 30%) 35%,
+          hsl(218, 41%, 20%) 75%,
+          hsl(218, 41%, 19%) 80%,
+          transparent 100%),
+        radial-gradient(1250px circle at 100% 100%,
+          hsl(218, 41%, 45%) 15%,
+          hsl(218, 41%, 30%) 35%,
+          hsl(218, 41%, 20%) 75%,
+          hsl(218, 41%, 19%) 80%,
+          transparent 100%);
+    }
+
+    #radius-shape-1 {
+      height: 220px;
+      width: 220px;
+      top: -60px;
+      left: -130px;
+      background: radial-gradient(#44006b, #ad1fff);
+      overflow: hidden;
+    }
+
+    #radius-shape-2 {
+      border-radius: 38% 62% 63% 37% / 70% 33% 67% 30%;
+      bottom: -60px;
+      right: -110px;
+      width: 300px;
+      height: 300px;
+      background: radial-gradient(#44006b, #ad1fff);
+      overflow: hidden;
+    }
+
+    .bg-glass {
+      background-color: hsla(0, 0%, 100%, 0.9) !important;
+      backdrop-filter: saturate(200%) blur(25px);
+    }
+  </style>
+
+  <div class="container px-4 py-5 px-md-5 text-center text-lg-start my-5">
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    <div class="container sticky-top ">
+      {% for category, message in messages %}
+      <div class="alert alert-{{ category }} d-flex align-items-center alert-dismissible fade show px-md-5"
+        role="alert">
+        <h6 class="h6"> {{ message }} </h6>
+        <button type="button" class="btn-close py-md-3 px-md-5 fw-bold" data-bs-dismiss="alert"
+          aria-label="Close"></button>
+      </div>
+      {% endfor %}
+    </div>
+    {% endif %}
+    {% endwith %}
+    <div class="row gx-lg-5 align-items-center mb-5">
+      <div class="col-lg-6 mb-5 mb-lg-0" style="z-index: 10">
+        <h1 class="my-5 display-5 fw-bold ls-tight" style="color: hsl(218, 81%, 95%)">
+          NetCanvas <br />
+          <span class="text-primary">For Networking base solution</span>
+        </h1>
+        <p class="text-white-50 mb-4">
+          A comprehensive monitoring network employs interconnected systems to track and analyze data across multiple
+          devices and locations in real time. It provides a bird's-eye view of network health, swiftly identifying and
+          addressing issues while ensuring optimal performance and security.
+        </p>
+      </div>
+
+      <div class="col-lg-6 mb-5 mb-lg-0 position-relative">
+        <div id="radius-shape-1" class="position-absolute rounded-circle shadow-5-strong"></div>
+        <div id="radius-shape-2" class="position-absolute shadow-5-strong"></div>
+
+        <div class="card bg-glass">
+          <div class="card-header bg-transparent">
+            <h3 class="h3 text-primary text-center fw-bold lato">Admin Login</h3>
+          </div>
+          <div class="card-body px-4 py-5 px-md-5">
+            <form action="/admin/login" method="POST">
+              {{ form.hidden_tag() }}
+              <div class="form-outline mb-4">
+                {{ form.email.label(for="email")}} {{ form.email(id="email",
+                class="form-control")}} {% if form.email.errors %}
+                <ul>
+                  {% for error in form.email.errors %}
+                  <li>{{ error }}</li>
+                  {% endfor %}
+                </ul>
+                {% endif %}
+              </div>
+
+              <div class="form-group mb-4">
+                {{ form.password.label(for="password")}}
+                <div class="input-group">
+                  {{
+                  form.password(id="password", class="form-control")}}
+                  <button class="btn btn-outline-secondary" type="button" id="togglePassword">
+                    <i class="bi bi-eye"></i>
+                  </button>
+
+                </div>
+                {% if
+                form.password.errors %}
+                <ul>
+                  {% for error in form.password.errors %}
+                  <li>{{ error }}</li>
+                  {% endfor %}
+                </ul>
+                {% endif %}
+              </div>
+              <div class="form-outline mb-4">
+                {{ form.license_key.label(for="license_key") }}
+                {{ form.license_key(id="license_key", class="form-control", placeholder="e.g X000-X000-X000",
+                autocomplete="off") }}
+                {% if form.license_key.errors %}
+                <ul>
+                  {% for error in form.license_key.errors %}
+                  <li>{{ error }}</li>
+                  {% endfor %}
+                </ul>
+                {% endif %}
+              </div>
+              {{ form.submit(class="btn btn-primary mt-4")}}
+              <a class="btn btn-outline-primary mt-4" href="{{ url_for('login') }}">Login As User</a>
+
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

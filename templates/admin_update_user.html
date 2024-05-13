@@ -1,0 +1,54 @@
+{% extends 'admin_app.html' %}
+{% block content %}
+{% with messages = get_flashed_messages(with_categories=true) %}
+{% if messages %}
+<div class="container sticky-top">
+  {% for category, message in messages %}
+  <div class="alert alert-{{ category }} d-flex align-items-center alert-dismissible fade show px-md-5" role="alert">
+    <h6 class="h6"> {{ message }} </h6>
+    <button type="button" class="btn-close py-md-3 px-md-5 fw-bold" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+  {% endfor %}
+</div>
+{% endif %}
+{% endwith %}
+<section class="background-radial-gradient overflow-hidden d-flex justify-content-center align-items-center vh-100">
+  <div class="col-lg-6 pt-3">
+    <div class="card bg-6 border border-3 border-primary p-3 rounded-5">
+      <div class="card-header bg-transparent">
+        <h3 class="h3 text-primary text-center fw-bold lato">Update User</h3>
+      </div>
+      <div class="card-body px-4 py-md-3 px-md-5">
+        <form method="post" action="/admin/update_user/{{ user_id }}">
+          {{ form.csrf_token }}
+          <div class="form-group">
+            {{ form.name.label(for="name")}}
+            {{ form.name(id="name", class="form-control")}}
+          </div>
+          <div class="form-group">
+            {{ form.email.label(for="email")}} {{ form.email(id="email", class="form-control")}}
+            {% if form.email.errors %}
+            <ul>
+              {% for error in form.email.errors %}
+              <li>{{ error }}</li>
+              {% endfor %}
+            </ul>
+            {% endif %}
+          </div>
+          <div class="form-group">
+            {{ form.password.label(for="password")}}
+            <div class="input-group">
+              {{ form.password(id="password", class="form-control")}}
+              <button class="btn btn-outline-secondary" type="button" id="togglePassword">
+                <i class="bi bi-eye"></i>
+              </button>
+            </div>
+          </div>
+          {{ form.submit(class="btn btn-primary mt-4")}}
+          <a class="btn btn-outline-primary mt-4" href="{{ url_for('admin_dashboard') }}">Back</a>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

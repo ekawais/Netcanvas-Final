@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Network State</title>
+</head>
+<body>
+    <h1>Network State</h1>
+    <p>Total Packets Captured: {{ total_packets }}</p>
+    <p>Unique Source IPs: {{ unique_source_ips }}</p>
+    <p>Unique Destination IPs: {{ unique_destination_ips }}</p>
+
+    <h2>Network State Plot</h2>
+    <img src="data:image/png;base64,{{ plot_image }}" alt="Network State Plot">
+</body>
+</html>

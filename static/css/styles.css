@@ -1,0 +1,17 @@
+
+html{
+  scroll-behavior: smooth;
+}
+
+header,
+nav {
+  min-height: 5rem !important;
+}
+.cal-height {
+  min-height: calc(100vh - 5rem);
+}
+.bg-custom-dark {
+  background: #3b355b;
+  color: white;
+}
+

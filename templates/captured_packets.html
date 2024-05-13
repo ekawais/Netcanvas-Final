@@ -1,0 +1,154 @@
+
+
+{% extends 'app.html' %}
+
+{% block content %}
+<section class="cal-height bg-white">
+
+  {% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+  <div class="container sticky-top">
+    {% for category, message in messages %}
+    <div class="alert alert-{{ category }} d-flex align-items-center alert-dismissible fade show px-md-5" role="alert">
+      <h6 class="h6"> {{ message }} </h6>
+      <button type="button" class="btn-close py-md-3 px-md-5 fw-bold" data-bs-dismiss="alert"
+        aria-label="Close"></button>
+    </div>
+    {% endfor %}
+  </div>
+  {% endif %}
+  {% endwith %}
+
+  <div class="px-5 py-3">
+    <div class="row">
+      <div class="col-12">
+        <div class="mb-3">
+          <h2 class="h2 display-5 lora-italic text-center">Packets Sniffing </h2>
+          <hr class="border border-3 border-primary" />
+        </div>
+      </div>
+    </div>
+    <div class="row align-items-start">
+      <div class="col-md-3">
+        <div class="border border-3 border-primary p-3 rounded-5">
+          <form action="/start_capture" method="POST" enctype="multipart/form-data">
+            <div class="row align-items-center">
+              <div class="my-3">
+                <label for="capture_packet" class="fs-4 fw-semibold lato">Add File</label>
+                <div class="input-group py-2">
+                  <input class="form-control py-2" id="inputGroupFile" aria-describedby="inputGroupFileAddon"
+                    aria-label="Upload" type="file" name="pcap_file" />
+                  <button class="btn btn-outline-secondary" type="submit" id="inputGroupFileAddon">
+                    <i class="bi bi-play-fill"></i>
+                  </button>
+                </div>
+              </div>
+              <div class="row align-items-center w-100">
+                <div class="d-flex align-items-center justify-content-between flex-reverse flex-wrap gap-3">
+                  <a class="btn btn-outline-primary fw-semibold w-100" href="{{ url_for('dashboard') }}">
+                    <div class="d-flex align-items-center">
+                      <i class="bi bi-bounding-box fs-4"></i>
+                      <span class="px-3">Dashboard</span>
+                    </div>
+                  </a>
+                  <a class="btn btn-outline-primary fw-semibold w-100" href="{{ url_for('asset_discovery') }}">
+                    <div class="d-flex align-items-center">
+                      <i class="bi bi-pc-display fs-4"></i>
+                      <span class="px-3">Assets Discovery</span>
+                    </div>
+                  </a>
+                  <a class="btn btn-outline-primary fw-semibold w-100" href="{{ url_for('visualization') }}">
+                    <div class="d-flex align-items-center">
+                      <i class="bi bi-diagram-3 fs-4"></i>
+                      <span class="px-3">Visualization</span>
+                    </div>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+      <div class="col-md-9">
+        <div class="border border-3 border-primary p-3 rounded-5">
+          <div class="card border border-0 py-3">
+            <div class="card-header bg-custom-dark text-center">
+              <h4 class="h4 fw-semibold">Results</h4>
+            </div>
+
+            <div class="table-responsive">
+              <table class="table table-bordered align-middle"
+                style="max-width: 100vw !important; max-height:60vh !important;">
+                <thead class="bg-primary text-white">
+                  <tr>
+                    <th>ID</th>
+                    <th>Source IP</th>
+                    <th>Destination IP</th>
+                    <th>Protocol</th>
+                    <th>Packet Length</th>
+                    <th>Packet Info</th>  
+                  </tr>
+                </thead>
+
+              <tbody id="packetTableBody">
+
+  {% if 'captured_packets' in session %}
+    {% for packet in session['captured_packets'] %}
+      <tr>
+        <td>{{ packet['sr'] }}</td> 
+        <td>{{ packet['source_ip'] }}</td>
+        <td>{{ packet['destination_ip'] }}</td>
+        <td>{{ packet['protocol'] }}</td>
+        <td>{{ packet['packet_length'] }}</td>
+        <td class="text-break">{{ packet['packet_info'] }}</td>
+      </tr>
+    {% endfor %}
+  {% else %}
+    {% for packet in packets %}
+      <tr>
+        <td>{{ packet['sr'] }}</td> 
+        <td>{{ packet['source_ip'] }}</td>
+        <td>{{ packet['destination_ip'] }}</td>
+        <td>{{ packet['protocol'] }}</td>
+        <td>{{ packet['packet_length'] }}</td>
+        <td class="text-break">{{ packet['packet_info'] }}</td>
+      </tr>
+    {% endfor %}
+  {% endif %}
+</tbody>
+
+
+              </table>
+              <div id="processingIcon" class="text-center my-3" style="display: none;">
+                <div class="spinner-border text-primary" role="status">
+                  <span class="visually-hidden">Loading...</span>
+                </div>
+                <p class="mb-0 text-primary">Packet Capturing...</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+</section>
+
+<script>
+  // JavaScript to show/hide the processing icon
+  function showProcessingIcon() {
+    document.getElementById('processingIcon').style.display = 'block';
+    document.getElementById('packetTableBody').style.display = 'none';
+  }
+
+  function hideProcessingIcon() {
+    document.getElementById('processingIcon').style.display = 'none';
+    document.getElementById('packetTableBody').style.display = 'block';
+  }
+
+  // Event listener for form submission (start_capture)
+  document.querySelector('form[action="/start_capture"]').addEventListener('submit', function () {
+    showProcessingIcon();
+  });
+</script>
+{% endblock content %}

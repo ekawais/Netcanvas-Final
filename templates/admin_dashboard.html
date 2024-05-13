@@ -1,0 +1,85 @@
+{% extends 'admin_app.html' %} {% block content %}
+<section class="cal-height bg-white">
+
+  {% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+  <div class="container sticky-top ">
+    {% for category, message in messages %}
+    <div class="alert alert-{{ category }} d-flex align-items-center alert-dismissible fade show px-md-5" role="alert">
+      <h6 class="h6"> {{ message }} </h6>
+      <button type="button" class="btn-close py-md-3 px-md-5 fw-bold" data-bs-dismiss="alert"
+        aria-label="Close"></button>
+    </div>
+    {% endfor %}
+  </div>
+  {% endif %}
+  {% endwith %}
+
+  <div class="px-5 py-3">
+    <div class="row">
+      <!-- Your Captured Packets section -->
+      <div class="col-12">
+        <div class="mb-3">
+          <h2 class="h2 display-5 lora-italic text-center">Welcome</h2>
+          <hr class="border border-3 border-primary" />
+        </div>
+      </div>
+      <div class="col-md-12">
+        <!-- Add File form -->
+        <div class="border border-3 border-primary p-3 rounded-5">
+
+          <div class="row">
+            <div class="col-12">
+              <div class="d-flex align-items-center justify-content-between">
+                <h3 class="h3 fw-bold text-primary">User List</h3>
+              </div>
+            </div>
+          </div>
+          <table class="table table-hover table-border border primary">
+            <thead class="table-primary">
+              <tr class="text-white">
+                <th>ID</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Actions</th>
+                <th>Update</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for user in users %}
+              <tr>
+                <td>{{ user[0] }}</td>
+                <td>{{ user[1] }}</td>
+                <td>{{ user[2] }}</td>
+                <td>
+                  <!-- Add delete and update functionality here -->
+                  <form method="post" action="/admin/delete_user/{{ user[0] }}"
+                    >
+                    <button class="btn btn-outline-danger fw-bold" type="submit">
+                      <i class="bi bi-trash3-fill"></i>
+                      Delete
+                    </button>
+                  </form></td>
+                  <td>
+                  <button class="btn btn-outline-primary fw-bold">
+                  <a href="/admin/update_user/{{ user[0] }}" >
+                    <i class="bi bi-pencil-fill"></i>
+                    Update
+                  </a>
+                </button>
+                </td>
+              </tr>
+              {% endfor %}
+              {% if deletion_success %}
+              <div class="alert alert-success">
+                User deleted successfully!
+              </div>
+              {% endif %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock content %}

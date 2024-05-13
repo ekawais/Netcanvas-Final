@@ -1,0 +1,99 @@
+<!-- dashboard.html -->
+{% extends 'app.html' %} {% block content %}
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+{% if messages %}
+<div class="container sticky-top ">
+  {% for category, message in messages %}
+  <div
+    class="alert alert-{{ category }} d-flex align-items-center w-75 alert-dismissible fade show position-absolute top-0 start-50 translate-middle-x shadow-sm"
+    role="alert">
+    <h6 class="h6"> {{ message }} </h6>
+    <button type="button" class="btn-close py-md-3 px-md-5 fw-bold" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+  {% endfor %}
+</div>
+{% endif %}
+{% endwith %}
+<section>
+  <div class="px-5">
+    <div class="row align-items-center">
+      <!-- Left side: Packet Capturing Button -->
+      <div class="col-md-6 p-0">
+        <div class="d-flex align-items-center justify-content-center">
+          <div id="lottie-container" style="width: 36.60vw; height:78vh;"></div>
+        </div>
+      </div>
+      <!-- Right side: Content -->
+      <div class="col-md-6 p-0">
+        <div class="py-3">
+          <h2 class="text-center py-2">
+            Welcome to the Dashboard
+            <span class="fw-bold lora-italic">{{ user[1] }}</span>
+          </h2>
+
+          <!-- Navbar -->
+          <div class="row align-items-center">
+            <div class="col-md-4 my-2">
+              <div
+                class="d-flex align-items-center flex-column text-primary border border-2 border-primary rounded-3 p-2">
+                <div class="display-2">
+                  <i class="bi bi-pc-display"></i>
+                </div>
+                <div>
+                  <p class="fw-bold">Assets</p>
+                </div>
+                <div>
+                  <h2 class="h2 lato"><p>{{ total_assets }}</p></h2>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4 my-2">
+              <div
+                class="d-flex align-items-center flex-column text-primary border border-2 border-primary rounded-3 p-2">
+                <div class="display-2">
+                  <i class="bi bi-diagram-3-fill"></i>
+                </div>
+                <div>
+                  <p class="fw-bold">Nodes</p>
+                </div>
+                <div>
+                  
+
+                  <h2 class="h2 lato"><p>{{ total_nodes }}</p></h2>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4 my-2">
+              <div
+                class="d-flex align-items-center flex-column text-primary border border-2 border-primary rounded-3 p-2">
+                <div class="display-2">
+                  <i class="bi bi-router-fill"></i>
+                </div>
+                <div>
+                  <p class="fw-bold">Total Packets</p>
+                </div>
+                <div>
+                  <h2 class="h2 lato"><p>{{ total_packets }}</p></h2>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row align-items-center my-3">
+            <div class="col-12">
+              <div class="d-flex justify-content-center">
+                <a class="btn btn-outline-dark btn-lg fw-bold w-100" href="{{ url_for('start_capture') }}">
+                  Packet Capturing
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+{% endblock %}

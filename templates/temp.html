@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Packet capturing</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        th, td {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body> -->
+{% extends 'app.html' %}
+{% block content %}
+<h1>Packet capturing</h1>
+<form action="/start_capture" method="POST" enctype="multipart/form-data">
+    <div class="row align-items-center">
+        <div class="my-3">
+            <label for="capture_packet" class="fs-4 fw-semibold lato">Add File</label>
+            <div class="input-group py-2">
+                <input class="form-control py-2" id="inputGroupFile" aria-describedby="inputGroupFileAddon"
+                    aria-label="Upload" type="file" name="pcap_file" />
+                <button class="btn btn-outline-secondary" type="submit" id="inputGroupFileAddon">
+                    <i class="bi bi-play-fill"></i>
+                </button>
+            </div>
+        </div>
+
+        <table id="packetTable">
+            <tr>
+                <th>Source IP</th>
+                <th>Destination IP</th>
+                <th>Protocol</th>
+                <th>Packet Length</th>
+                <th>Packet Info</th>
+            </tr>
+            {% for packet in packets %}
+            <tr>
+                <td>{{ packet.SourceIP }}</td>
+                <td>{{ packet.DestinationIP }}</td>
+                <td>{{ packet.Protocol }}</td>
+                <td>{{ packet.PacketLength }}</td>
+                <td>{{ packet.PacketInfo }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+        {% endblock content %}
+        </body>
+
+        </html>

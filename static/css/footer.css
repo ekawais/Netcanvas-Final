@@ -1,0 +1,157 @@
+@font-face {
+  font-family: 'DIN Next Italic';
+  src: url('fonts/dinnext_i4.61ded265c0c537a08a3ef6c1f78e76a5f3be91c9.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'DIN Next Normal';
+  src: url('fonts/dinnext_n4.438c249fdbceeefafa64221353c5ece2fdb8ae14.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'DIN Next Medium';
+  src: url('fonts/dinnext_n5.9de62f474792d83a5c7487ba13c73b05f03f03c7.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Futura Normal';
+  src: url('fonts/futura_n3.cc9b68efd1cfa8296b0ec7d463066804b6bcc72b.woff2') format('woff2');
+}
+body{
+  font-family: DIN Next Normal, sans-serif;
+}
+.custom-icon {
+    height: 20px !important;
+    width: 20px !important;
+  }
+  .fb ul li{
+    box-shadow: 1px 0 rgb(224, 224, 224),0 1px rgb(224, 224, 224),1px 1px rgb(224, 224, 224),1px 0 rgb(224, 224, 224) inset,0 1px rgb(224, 224, 224) inset;
+    padding: 20px ;
+    font-size: 20px;
+  }
+  
+  .col-4.fb ul.list-unstyled li {
+    position: relative;
+    overflow: hidden;
+    display: inline-block; /* Added display property */
+  }
+  
+  .col-4.fb ul.list-unstyled li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    background: black;
+    color: white;
+    z-index: -1000;
+    transition: transform 0.3s ease-out;
+    transform: translateY(100%);
+  }
+  
+  .col-4.fb ul.list-unstyled li:hover::before {
+    transform: translateY(0);
+    background-color: black;
+  }
+  
+  .col-4.fb ul.list-unstyled li:hover {
+    color: white; /* Change text color on hover */
+  }
+  .f-heading h5{
+    font-size: 10px;
+    font-weight: 500 !important;
+    letter-spacing: 1px;
+    /* font-style: normal; */
+    margin: 0 0 13px;
+    color: #0D0D0D;
+  }
+  .f-heading p{
+    font-size: 12px;
+    font-weight: 500 !important;
+    letter-spacing: 1px;
+    font-style: normal;
+    margin: 0 0 13px;
+    color: #0D0D0D;
+  }
+  .f-heading svg{
+    height: 20px;
+    width: 20px;
+    font-weight: bolder;
+    margin: 0 0 16px;
+  }
+  .head{
+    font-family: DIN Next Medium, sans-serif !important;
+    font-size: 15px !important;
+  }
+  .foot{
+    font-family: DIN Next Normal, sans-serif !important;
+    font-size: 15px !important;
+    font-weight: normal !important  ;
+  }
+  
+  @media (max-width: 767px) {
+    .fb ul li{
+      padding: 10px !important;
+    }
+    .f-heading{
+      display: flex !important;
+      flex-direction: column !important;
+    }
+    .head{
+      margin-top: 0 !important;
+    }
+    .foot{
+      margin-top: 0 !important;
+    }
+    .footer_col{
+      margin-top: 2%  !important;
+    }
+  }
+  @media (max-width: 426px) {
+      .svg-container{
+          display:flex;
+          flex-direction:row;
+          flex-wrap:wrap;
+          margin-top:5%;
+          padding:5%;
+          
+      }
+      .footer-end{
+          display:flex;
+          flex-direction:row;
+          flex-wrap:wrap;
+      }
+      .visa{
+          display:none;
+      }
+      .accpet_card{
+          font-size:12px;
+          margin-top:5%;
+      }
+      .pay{
+          padding-top:5%;
+      }
+  }
+  
+  
+  .powered{
+      color:black; 
+      text-decoration:none;
+      font-weight:bold;
+      transition:all 0.3s ease;
+  }
+  .powered:hover{
+      color:blue;
+
+  }
+  
+  
+  @media (max-width: 320px) {
+    .col-4{
+        width:100%;
+        display:flex;
+        justify-content:center;
+    }
+    
+  }

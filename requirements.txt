@@ -1,0 +1,6 @@
+flask
+flask-WTF
+bycrypt
+Flask-MySQLdb
+scapy
+WTForms

@@ -1,0 +1,248 @@
+{% extends 'app.html' %}
+{% block content %}
+<section class="cal-height bg-white">
+
+  {% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+  <div class="container sticky-top">
+    {% for category, message in messages %}
+    <div class="alert alert-{{ category }} d-flex align-items-center alert-dismissible fade show px-md-5" role="alert">
+      <h6 class="h6"> {{ message }} </h6>
+      <button type="button" class="btn-close py-md-3 px-md-5 fw-bold" data-bs-dismiss="alert"
+        aria-label="Close"></button>
+    </div>
+    {% endfor %}
+  </div>
+  {% endif %}
+  {% endwith %}
+
+  <div class="px-5 py-3">
+    <div class="row">
+      <div class="col-12">
+        <div class="mb-3">
+          <h2 class="h2 display-5 lora-italic text-center">Packet Visualization</h2>
+          <hr class="border border-3 border-primary" />
+        </div>
+      </div>
+    </div>
+    <div class="row align-items-start">
+      <div class="col-md-3">
+        <div class="border border-3 border-primary p-3 rounded-5">
+          
+            <div class="row align-items-center">
+              <div class="my-3">
+                
+                <div class="input-group py-2">
+                 
+                </div>
+              </div>
+              <div class="row align-items-center w-100">
+                <div class="d-flex align-items-center justify-content-between flex-reverse flex-wrap gap-3">
+                  <a class="btn btn-outline-primary fw-semibold w-100" href="{{ url_for('dashboard') }}">
+                    <div class="d-flex align-items-center">
+                      <i class="bi bi-bounding-box fs-4"></i>
+                      <span class="px-3">Dashboard</span>
+                    </div>
+                  </a>
+                  <a class="btn btn-outline-primary fw-semibold w-100" href="{{ url_for('start_capture') }}">
+                    <div class="d-flex align-items-center">
+                     <i class="bi bi-broadcast fs-4"></i>
+                      <span class="px-3">Packet Capturing</span>
+                    </div>
+                  </a>
+                  <a class="btn btn-outline-primary fw-semibold w-100" href="{{ url_for('asset_discovery') }}">
+                    <div class="d-flex align-items-center">
+                      <i class="bi bi-pc-display fs-4"></i>
+                      <span class="px-3">Asset Discovery</span>
+                    </div>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+      <div class="col-md-9">
+        <div class="border border-3 border-primary p-3 rounded-5">
+          <div class="card border border-0 py-3">
+            <div class="card-header bg-custom-dark text-center">
+              <h4 class="h4 fw-semibold">Packet Visualization</h4>
+            </div>
+            <div class="card-body p-0">
+              <div id="visualization" class="border border-3  p-3" style="border-radius: 0 0 2rem 2rem">
+                <div class="legend-item">
+                  <div class="circle" style="background-color: red;"></div>
+                  <span class="legend-text">Source Node</span>
+                </div>
+                
+ 
+                <div class="legend-item">
+                  <div class="circle" style="background-color: blue;"></div>
+                  <span class="legend-text">Destination Node</span>
+                </div>
+                <div class="custom text-end  float-end">
+                  <div class="row">
+                    <div class="col">
+                      <button class="btn btn-outline-primary fw-semibold d-block w-100 mb-3" id="zoomInBtn">Zoom In</button>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col">
+                      <button class="btn btn-outline-primary fw-semibold  d-block w-100 mb-3" id="zoomOutBtn">Zoom Out</button>
+                    </div>
+                  </div>
+                </div>
+                
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+              
+                <script src="https://d3js.org/d3.v7.min.js"></script>
+                
+                <style>
+                    
+                    .legend {
+                        position: absolute;
+                        top: 10px;
+                        left: 10px;
+                        padding: 10px;
+                        background-color: #f0f0f0;
+                    }
+                    .legend-item {
+                        display: inline-block;
+                        margin-right: 20px;
+                    }
+                    
+                    .legend-item .circle {
+                        width: 10px;
+                        height: 10px;
+                        border-radius: 50%;
+                        display: inline-block;
+                        margin-right: 5px;
+                    }
+                </style>
+                <script>
+                  // Data passed from Flask route
+                  const nodes = {{ nodes | tojson }};
+                  const links = {{ links | tojson }};
+              
+                  // Create SVG element
+                  const svg = d3.select("#visualization").append("svg")
+                      .attr("width", 800)
+                      .attr("height", 600);
+              
+                  // Define specific area for visualization within SVG
+                  const margin = { top: 40, right: 20, bottom: 20, left: 20 };
+                  const width = 800 - margin.left - margin.right;
+                  const height = 600 - margin.top - margin.bottom;
+                  const visualizationArea = svg.append("g")
+                      .attr("transform", `translate(${margin.left}, ${margin.top})`);
+                  // Zoom in button event listener
+  document.getElementById('zoomInBtn').addEventListener('click', function() {
+    svg.transition().call(zoom.scaleBy, 1.2);
+  });
+
+  // Zoom out button event listener
+  document.getElementById('zoomOutBtn').addEventListener('click', function() {
+    svg.transition().call(zoom.scaleBy, 0.8);
+  });
+                      
+              
+                  // Create a force simulation
+                  const simulation = d3.forceSimulation(nodes)
+    .force("link", d3.forceLink(links).id(d => d.id).distance(100)) // Set the link distance here
+    .force("charge", d3.forceManyBody().strength(-100))
+    .force("center", d3.forceCenter(width / 2, height / 2)) // Centering the nodes
+    .alpha(0.01)
+    
+                  // Create SVG elements for links and nodes
+                  const link = visualizationArea.selectAll("line")
+                      .data(links)
+                      .enter().append("line")
+                      .attr("stroke", "#999")
+                      .attr("stroke-opacity", 0.6)
+                      .attr("stroke-width", 2); // Adjust link width as needed
+              
+                  const node = visualizationArea.selectAll("g")
+                      .data(nodes)
+                      .enter().append("g")
+                      .attr("class", "node")
+                      .style("display", function(d) {
+                          return isConnected(d) ? "block" : "none";
+                      })
+                      // Centering the nodes initially
+                      .attr("transform", `translate(${width / 2},${height / 2})`);
+              
+                  // Append circles for nodes
+                  node.append("circle")
+                      .attr("r", 5)
+                      .attr("fill", d => d.type === 'source' ? 'red' : 'blue')
+                      .call(d3.drag()
+                          .on("start", dragstarted)
+                          .on("drag", dragged)
+                          .on("end", dragended));
+              
+                  // Append text labels for nodes
+                  node.append("text")
+                      .attr("dx", 12)
+                      .attr("dy", ".35em")
+                      .text(d => d.id);
+              
+                  // Define zoom behavior
+                  const zoom = d3.zoom()
+                      .scaleExtent([0.1, 10])
+                      .on("zoom", zoomed);
+              
+                  // Apply zoom behavior to SVG element
+                  svg.call(zoom);
+              
+                  // Define zoom function
+                  function zoomed(event) {
+                      visualizationArea.attr("transform", event.transform);
+                  }
+              
+                  <!-- // Define functions for drag events
+                  function dragstarted(event, d) {
+                      if (!event.active) simulation.alphaTarget(0.3).restart;
+                      d.fx = d.x;
+                      d.fy = d.y;
+                  }
+              
+                  function dragged(event, d) {
+                      d.fx = event.x;
+                      d.fy = event.y;
+                  }
+              
+                  function dragended(event, d) {
+                      if (!event.active) simulation.alphaTarget(0);
+                      d.fx = null;
+                      d.fy = null;
+                  }
+               -->
+                  // Update node and link positions
+                  simulation.on("tick", () => {
+                      link.attr("x1", d => d.source.x)
+                          .attr("y1", d => d.source.y)
+                          .attr("x2", d => d.target.x)
+                          .attr("y2", d => d.target.y);
+              
+                      node.attr("transform", d => `translate(${d.x},${d.y})`);
+                  });
+              
+                  // Check if a node is connected to any link
+                  function isConnected(node) {
+                      return links.some(link => link.source === node || link.target === node);
+                  }
+              </script>
+              
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock content %}
